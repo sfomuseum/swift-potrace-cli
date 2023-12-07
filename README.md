@@ -1,5 +1,7 @@
 # swift-potrace-cli
 
+The `potrace` command line tool, but written in Swift.
+
 ## Tools
 
 ### potrace
@@ -8,10 +10,14 @@
 $> swift build
 
 $> ./.build/debug/potrace -h
-USAGE: potrace-cli <input-file> [--svg-type <svg-type>] [--fill-svg <fill-svg>] [--turn-policy <turn-policy>] [--turd-size <turd-size>] [--opt-curve <opt-curve>] [--alpha-max <alpha-max>] [--opt-tolerance <opt-tolerance>]
+Building for debugging...
+[15/15] Linking potrace
+Build complete! (1.20s)
+USAGE: potrace-cli <input-file> <output-file> [--svg-type <svg-type>] [--fill-svg <fill-svg>] [--turn-policy <turn-policy>] [--turd-size <turd-size>] [--opt-curve <opt-curve>] [--alpha-max <alpha-max>] [--opt-tolerance <opt-tolerance>]
 
 ARGUMENTS:
-  <input-file>            The path to an image file to extract text from.
+  <input-file>            The path to an image file to trace.
+  <output-file>           The path to the SVG file to be created.
 
 OPTIONS:
   --svg-type <svg-type>   If set to 'curve'
@@ -24,7 +30,6 @@ OPTIONS:
   --opt-tolerance <opt-tolerance>
                           Curve optimization tolerance. (default: 0.2)
   -h, --help              Show help information.
-
 ```
 
 ## See also

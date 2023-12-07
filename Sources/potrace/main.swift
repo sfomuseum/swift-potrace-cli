@@ -5,16 +5,17 @@ import CoreGraphicsImage
 import CoreGraphics
 
 public enum Errors: Error {
-    case missingInput
-    case invalidImage
     case unsupportedOS
 }
 
 @available(macOS 10.15, *)
 struct PotraceCLI: ParsableCommand {
     
-    @Argument(help:"The path to an image file to extract text from.")
+    @Argument(help:"The path to an image file to trace.")
     var inputFile: String
+    
+    @Argument(help:"The path to the SVG file to be created.")
+    var outputFile: String
     
     @Option(help:"If set to 'curve'")
     var svgType: String = ""
@@ -39,10 +40,9 @@ struct PotraceCLI: ParsableCommand {
     
     func run() throws {
         
-        guard let im_url = URL(string: inputFile) else {
-            throw(Errors.missingInput)
-        }
-        
+        let im_url = URL(fileURLWithPath: inputFile)
+        let svg_url = URL(fileURLWithPath: outputFile)
+                
         let im_rsp = CoreGraphicsImage.LoadFromURL(url: im_url)
              
         var cg_image: CGImage
@@ -71,7 +71,8 @@ struct PotraceCLI: ParsableCommand {
         }
         
         let svgString = potrace.getSVG(opt_type:opt_type)
-        print(svgString)
+        
+        try svgString.write(to: svg_url, atomically: true, encoding: String.Encoding.utf8)
     }
 }
 
