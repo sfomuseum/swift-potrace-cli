@@ -1,1 +1,0 @@
-# swift-potrace-cli

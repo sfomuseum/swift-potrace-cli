@@ -1,13 +1,13 @@
 import Foundation
 import ArgumentParser
-// import Potrace
+import Potrace
 import CoreGraphicsImage
 import CoreGraphics
 
 public enum Errors: Error {
     case missingInput
+    case invalidImage
     case unsupportedOS
-    case invalidPixels
 }
 
 @available(macOS 10.15, *)
@@ -15,6 +15,27 @@ struct PotraceCLI: ParsableCommand {
     
     @Argument(help:"The path to an image file to extract text from.")
     var inputFile: String
+    
+    @Option(help:"If set to 'curve'")
+    var svgType: String = ""
+    
+    @Option(help:"Fill SVG paths.")
+    var fillSVG: Bool = true
+    
+    @Option(help:"Determine how to resolve ambiguities in path decomposition. Valid options are: black, white, left, right, minority, majority.")
+    var turnPolicy: String = "minority"
+
+    @Option(help:"Suppress speckles of up to this size.")
+    var turdSize: Int = 2
+        
+    @Option(help:"Turn on/off curve optimization.")
+    var optCurve: Bool = true
+    
+    @Option(help:"Corner threshold parameter.")
+    var alphaMax: Double = 1.0
+    
+    @Option(help:"Curve optimization tolerance.")
+    var optTolerance: Double = 0.2
     
     func run() throws {
         
@@ -33,14 +54,23 @@ struct PotraceCLI: ParsableCommand {
             cg_image = im
         }
         
-        var settings = Potrace.Settings()
-        settings.turdsize = 10
+        var settings = Settings()
+        settings.turnpolicy = turnPolicy
+        settings.turdsize = turdSize
+        settings.optcurve = optCurve
+        settings.alphamax = alphaMax
+        settings.opttolerance = optTolerance
         
         let potrace = try Potrace(image: cg_image)
         potrace.process(settings: settings)
         
-        // let bezierPath = potrace.getBezierPath()
-        let svgString = potrace.getSVG()
+        var opt_type = ""
+        
+        if !fillSVG {
+            opt_type = "curve"
+        }
+        
+        let svgString = potrace.getSVG(opt_type:opt_type)
         print(svgString)
     }
 }

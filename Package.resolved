@@ -17,6 +17,15 @@
         "revision" : "47bdc186c3a868d27c6e9557f71cacc4b3586883",
         "version" : "1.0.0"
       }
+    },
+    {
+      "identity" : "swift-potrace",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sfomuseum/swift-potrace",
+      "state" : {
+        "revision" : "31dd47a8b8218a2ec2c88cbfdcc24923331637a0",
+        "version" : "0.0.1"
+      }
     }
   ],
   "version" : 2

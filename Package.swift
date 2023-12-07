@@ -8,7 +8,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.3"),
         .package(url: "https://github.com/sfomuseum/swift-coregraphics-image", from: "1.0.0"),
-        // .package(url: "https://github.com/sfomuseum/swift-text-emboss", from: "0.0.3"),
+        .package(url: "https://github.com/sfomuseum/swift-potrace", from: "0.0.1"),
         // .package(name: "swift-potrace", path: "/usr/local/sfomuseum/swift-potrace")
     ],
     targets: [
@@ -16,7 +16,7 @@ let package = Package(
             name: "potrace",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                // .product(name: "Potrace", package: "swift-potrace"),
+                .product(name: "Potrace", package: "swift-potrace"),
                 .product(name: "CoreGraphicsImage", package: "swift-coregraphics-image")
             ]),
     ]
