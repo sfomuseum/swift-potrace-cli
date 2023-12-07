@@ -32,22 +32,14 @@ struct PotraceCLI: ParsableCommand {
         case .success(let im):
             cg_image = im
         }
-                
-        let im_pixels = pixelValues(fromCGImage: cg_image)
         
-        guard let im_data = UnsafeMutableRawPointer(mutating: im_pixels) else {
-            throw(Errors.invalidPixels)
-        }
+        var settings = Potrace.Settings()
+        settings.turdsize = 10
         
-        let potrace = Potrace(
-            data: im_data,
-            width: cg_image.width,
-            height: cg_image.height
-        )
+        let potrace = try Potrace(image: cg_image)
+        potrace.process(settings: settings)
         
-        potrace.process()
-        
-        let bezierPath = potrace.getBezierPath()
+        // let bezierPath = potrace.getBezierPath()
         let svgString = potrace.getSVG()
         print(svgString)
     }

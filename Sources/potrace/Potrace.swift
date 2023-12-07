@@ -194,6 +194,7 @@ final class Potrace {
     fileprivate var info: Settings!
     fileprivate var pathlist = [Path]()
     
+    /*
     init(data: UnsafeMutableRawPointer, width: Int, height: Int) {
 
         let pixelData = data.assumingMemoryBound(to: UInt8.self)
@@ -210,7 +211,32 @@ final class Potrace {
             j += 1
         }
     }
+    */
     
+    init(image: CGImage) throws {
+        
+        // Initialization of 'UnsafeMutableRawPointer' results in a dangling pointer
+        // https://developer.apple.com/forums/thread/653669
+        
+        guard let im_data = UnsafeMutableRawPointer(mutating: image.pixelData()) else {
+            throw Errors.invalidPixels
+        }
+        
+        let pixelData = im_data.assumingMemoryBound(to: UInt8.self)
+
+        bm = Bitmap(width: image.width, height: image.height)
+
+        var j = 0, i = 0
+        
+        for _ in 0..<bm.data.count {
+            let val = 0.2126 * Double(pixelData[i]) + 0.7153 * Double(pixelData[i + 1]) +
+                0.0721 * Double(pixelData[i + 2])
+            bm.data[j] = val < 128 ? 1 : 0
+            i += 4
+            j += 1
+        }
+    }
+        
     func process(settings: Settings = Settings()) {
         self.info = settings
         bmToPathList()
