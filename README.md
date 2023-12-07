@@ -10,9 +10,6 @@ The `potrace` command line tool, but written in Swift.
 $> swift build
 
 $> ./.build/debug/potrace -h
-Building for debugging...
-[15/15] Linking potrace
-Build complete! (1.20s)
 USAGE: potrace-cli <input-file> <output-file> [--svg-type <svg-type>] [--fill-svg <fill-svg>] [--turn-policy <turn-policy>] [--turd-size <turd-size>] [--opt-curve <opt-curve>] [--alpha-max <alpha-max>] [--opt-tolerance <opt-tolerance>]
 
 ARGUMENTS:
